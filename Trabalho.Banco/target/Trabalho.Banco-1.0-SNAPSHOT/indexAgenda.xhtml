@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Agenda - Contatos</title>
+        <style type="text/css">
+            *{
+                font-family: Arial;
+                font-size: 12px;
+            }
+            .cab{
+                background-color: #ccc;
+                font-weight: bold;
+                color:#FFF;                
+            }
+            .order-table{
+                border: 1px solid #ccc;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        
+        <table align="center">
+            <tr>
+                <td>
+            
+                        <h:form id="tabela">
+                        <h:dataTable value="#{agenda.listaContatos}" var="i"
+                                    styleClass="order-table"
+                                    headerClass="cab"
+                                    rowClasses="order-table-odd-row,order-table-even-row">
+
+                            <h:column><f:facet name="header" class="cab">Nome</f:facet>#{i.nome}</h:column>
+                            <h:column><f:facet name="header" class="cab">Sexo</f:facet>#{i.sexo}</h:column>
+                            <h:column><f:facet name="header" class="cab">Telefone</f:facet>#{i.telefone}</h:column>
+                            <h:column><f:facet name="header" class="cab">Aniversário</f:facet>#{i.aniversario}</h:column>
+                            <h:column>
+                                <h:commandLink action="#{agenda.removerContato(i)}" value="Remover">
+                                    <f:ajax execute="@form" render="tabela" /> 
+                                </h:commandLink>                
+                            </h:column>
+                         </h:dataTable>
+                        </h:form>
+            </td>
+                <td>
+                            <h:form id="form"> 
+                                <table class="order-table">
+                                    <tr>
+                                        <td class="cab" colspan="2" style="text-align: center">CADASTRO DE CONTATO</td>
+                                    </tr>
+                                       <tr>
+                                           <td class="cab">Nome:</td><td><h:inputText id="inicio" value="#{contato.nome}" /></td>
+                                       </tr>
+                                       <tr>
+                                           <td class="cab">Sexo:</td>
+                                           <td>
+                                               <h:selectOneRadio value="#{contato.sexo}">
+                                                   <f:selectItem itemValue="M" itemLabel="Masculino"  />
+                                                   <f:selectItem itemValue="F" itemLabel="Feminino" />	   			
+                                                </h:selectOneRadio>	   
+                                           </td>
+                                       </tr>
+                                       <tr>
+                                           <td class="cab">Telefone:</td><td><h:inputText  id="telefone" value="#{contato.telefone}"><f:validateRegex pattern="^(\([0-9]{2}\))?9?[0-9]{4}\-[0-9]{4}$" /></h:inputText></td>
+                                       </tr>
+                                       <tr>
+                                           <td class="cab">Data de Aniversário:</td><td><h:inputText id="data_aniversario" value="#{contato.aniversario}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:inputText></td>
+                                       </tr>            
+                                        <tr>
+                                            <td colspan="2" style="text-align: right">
+                                                <h:commandButton  value="Salvar" action="#{agenda.salvarNovoContato(contato)}">
+                                                    <f:ajax execute="@form" render="tabela" /> 
+                                                </h:commandButton>
+
+                                            </td>
+                                        </tr>
+
+                                   </table>
+
+                    
+                </h:form>
+            
+            </td>
+            </tr>
+            
+        </table>
+<!--        <h:inputText ></h:inputText>-->
+    </h:body>
+</html>
+
